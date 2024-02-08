@@ -1,4 +1,4 @@
-
+import avatar from '../../../assets/img/Alber-E.png'
 
 export const Sidebar = () => {
     return (
@@ -15,12 +15,12 @@ export const Sidebar = () => {
 
                         <div className="profile-info__general-info">
                             <div className="general-info__container-avatar">
-                                <img src="assets/img/user.png" className="container-avatar__img" alt="Foto de perfil" />
+                                <img src={avatar} className="container-avatar__img" alt="Foto de perfil" />
                             </div>
 
                             <div className="general-info__container-names">
-                                <a href="#" className="container-names__name">Victor Robles</a>
-                                <p className="container-names__nickname">VictorWeb</p>
+                                <a href="#" className="container-names__name">Albert Einstein</a>
+                                <p className="container-names__nickname">Si buscas resultados distintos, no hagas siempre lo mismo.</p>
                             </div>
                         </div>
 

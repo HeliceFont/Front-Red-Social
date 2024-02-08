@@ -1,8 +1,8 @@
-import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom'
+import { Routes, Route, BrowserRouter, Navigate, Link } from 'react-router-dom'
 import { PublicLayout } from '../components/layout/public/PublicLayout'
 import { Login } from '../components/user/Login'
 import { Register } from '../components/user/Register'
-import { PrivateLayout } from '../components/layout/general/PrivateLayout'
+import { PrivateLayout } from '../components/layout/private/PrivateLayout'
 import { Feed } from '../components/publication/Feed'
 
 export const Routing = () => {
@@ -19,8 +19,17 @@ export const Routing = () => {
                 <Route path="/social" element={<PrivateLayout />}>
                     <Route index element={<Feed />} />
                     <Route path='feed' element={<Feed />} />
-                    
                 </Route>
+
+                <Route path='*' element={
+                    <>
+                        <p>
+                            <h1>Error 404</h1>
+                            <Link to="/">Volver a la página de inicio</Link>
+                        </p>
+                        
+                    </>
+                }></Route>
 
             </Routes>
         </BrowserRouter>

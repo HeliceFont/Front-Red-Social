@@ -1,16 +1,16 @@
 /*ESTILOS GENERALES*/
 :root {
     --color-general-text: #333;
-    --color-backgroud-navbar: #3785e5;
-    --color-text-navbar: white;
-    --color-hover-navbar: #1756cc;
+    --color-backgroud-navbar: #eff30b;
+    --color-text-navbar: Black;
+    --color-hover-navbar: #8aeb49;
 
     --color-border-headers: #eee;
 
-    --color-background-btn-success: #5cb85c;
+    --color-background-btn-success: #8aeb49;
     --color-border-btn-success: #4cae4c;
-    --color-background-btn-success-hover: #449d44;
-    --color-border-btn-success-hover: #398439;
+    --color-background-btn-success-hover: #4cae4c;
+    --color-border-btn-success-hover: #8aeb49;
 
     --color-background-btn-delete: #d9534f;
     --color-border-btn-delete: #d43f3a;
@@ -22,7 +22,7 @@
 
     --color-text-black: #555;
     --color-text-nickname: #969393;
-    --color-number-stats: green;
+    --color-number-stats: #57c50d;
 
     --color-border-textarea: #ccc;
     --color-border-textarea-focus: #66afe9;
@@ -283,27 +283,29 @@ body {
 
 .aside__container{
     width: 100%;
-    
 }
 
 .aside__profile-info{
     border: 1px solid var(--color-border-post);
-    padding: 2.5rem;
+    padding: 1rem;
     margin-bottom: 2rem;
     border-radius: 0.4rem;
+    background-color: black;
 }
 
 .profile-info__general-info{
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: row;
+    margin-left: 0.5rem;
 }
 
 .general-info__container-avatar{
     width: 7.5rem;
     height: 7.5rem;
-    border-radius: 100rem;
-    margin-right: 1.5rem;
+    border-radius: 0.5rem ;
+    margin-right: 0rem;
     overflow: hidden;
 }
 
@@ -436,4 +438,15 @@ button{
     cursor: pointer;
     font-size: 1.4rem;
 }
-
+.alert{
+    width: 20%;
+    display: block;
+    background: #8aeb49;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    color: black;
+    border-radius: 3px;
+}
+.alert-success{
+    background: #8aeb49;
+}
