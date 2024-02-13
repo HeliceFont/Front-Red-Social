@@ -10,7 +10,8 @@ const AuthProvider = ({ children }) => {
     
 
     const [auth, setAuth] = useState({})
-    
+    const [counters, setCounters] = useState({})
+    const [loading, setLoading] = useState(true)
     useEffect(()=>{
         authUser();
     }, [])
@@ -23,6 +24,7 @@ const AuthProvider = ({ children }) => {
 
         // Comprobar si tengo el token y el usser
         if(!token || !user){
+            setLoading(false)
             return false
         }
         // Transformar los datos a un objeto de JavaScript
@@ -41,17 +43,27 @@ const AuthProvider = ({ children }) => {
         })
 
         const data = await request.json()
+        // Petición para los contadores de seguidores y publicaciones
+        const requestCounters = await fetch(Global.url + "user/counters/" + userId, {
+            method: "GET",
+            headers:{
+                "Content-Type" : "application/json",
+                "Authorization": token
+            }
+        })
+        const dataCounters = await requestCounters.json()
 
         // Setear el estado de auth
         setAuth(data.user)
-        console.log(data)
+        setCounters(dataCounters)
+        setLoading(false)
         }catch(error) {
             console.error('Error al autenticar al usuario:', error);
         }
     }
 
     return (
-        <AuthContext.Provider value={{ auth, setAuth }}>
+        <AuthContext.Provider value={{ auth, setAuth, counters, setCounters, loading }}>
             {/* <Feed/> */}
             {children}
         </AuthContext.Provider>

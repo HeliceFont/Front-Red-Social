@@ -1,22 +1,36 @@
-import { Outlet } from "react-router-dom"
+import { Navigate, Outlet } from "react-router-dom"
 import { Header } from "./Header"
 import { Sidebar } from "./Sidebar"
+import UseAuth from "../../../hooks/UseAuth"
+import Loading from "../../../assets/img/Comecocos.svg"
 
 
 export const PrivateLayout = () => {
-    return (
-        <>
-            {/* Layout */}
+    const { auth, loading } = UseAuth()
 
-            {/* Cabecera */}
-            <Header />
+    if (loading) {
+        return <div className="loading"><h1>Cargando...</h1>
+                    <img src={Loading} alt="Cargando..." />
+                </div>
+    } else {
+        return (
+            <>
+                {/* Layout */}
 
-            {/* Contenido principal */}
-            <section className="layout__content">
-                <Outlet/>
-            </section>
-            {/* Barra Lateral */}
-                <Sidebar/>
-        </>
-    )
+                {/* Cabecera */}
+                <Header />
+
+                {/* Contenido principal */}
+                <section className="layout__content">
+                    {auth._id ?
+                        <Outlet />
+                        :
+                        <Navigate to="/login" />
+                    }
+                </section>
+                {/* Barra Lateral */}
+                <Sidebar />
+            </>
+        )
+    }
 }

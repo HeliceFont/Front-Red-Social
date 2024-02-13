@@ -290,7 +290,7 @@ body {
     padding: 1rem;
     margin-bottom: 2rem;
     border-radius: 0.4rem;
-    background-color: black;
+    background-color: white;
 }
 
 .profile-info__general-info{
@@ -304,7 +304,7 @@ body {
 .general-info__container-avatar{
     width: 7.5rem;
     height: 7.5rem;
-    border-radius: 0.5rem ;
+    border-radius: 100rem ;
     margin-right: 0rem;
     overflow: hidden;
 }
@@ -439,7 +439,7 @@ button{
     font-size: 1.4rem;
 }
 .alert{
-    width: 40%;
+    width: 22.9%;
     display: block;
     background: #8aeb49;
     padding: 1rem;
@@ -452,4 +452,15 @@ button{
 }
 .alert-error{
     background: #e45858;
+}
+.loading{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 30rem;
+    margin-left: 10rem;
+    width: 100%;
+    border-radius: 10px solid #8aeb49;
+    background: #969393;
 }
