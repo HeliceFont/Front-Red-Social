@@ -249,6 +249,18 @@ body {
     background-color: var(--color-background-btn-delete);
     border-color: var(--color-border-btn-delete);
 }
+.post__button--green{
+    color: var(--color-text-navbar);
+    padding: 1rem 1.5rem;
+    font-size: 1.4rem;
+    border-radius: 0.4rem;
+    background-color: var(--color-border-btn-success-hover);
+    border-color: var(--color-border-btn-success);
+}
+.post__button--green:hover{
+    background-color: var(--color-border-btn-success);
+    border-color: var(--color-border-btn-success-hover);
+}
 
 
 .post__button:hover{
