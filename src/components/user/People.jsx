@@ -7,16 +7,16 @@ export const People = () => {
 
   const [users, setUser] = useState([])
   const [page, setPage] = useState(1)
-  const [ more, setMore] = useState(true)
+  const [more, setMore] = useState(true)
+  const [following, setFollowing] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    getUsers(1)
-  }, [])
+  
 
   const token = localStorage.getItem('token')
 
   const getUsers = async (nextPage = 1) => {
+    
     // Efecto de carga
     setLoading(true)
     // Peticion para sacar usuarios
@@ -29,32 +29,38 @@ export const People = () => {
     })
 
     const data = await request.json()
-
+    console.log("API Response:", data);
     
 
     // Crear un estado para poder listarlos
     if (data.users && data.status === "success") {
       let newUsers = data.users
-
-        if(users.length >=1){
-          newUsers = [...users, ...data.users]
-        }
+      
+      if (users.length >= 1) {
+        newUsers = [...users, ...data.users]
+      } else {
+        newUsers = data.users;
+      }
 
       setUser(newUsers)
+      setFollowing(data.user_following)
       setLoading(false)
       // Paginación
-      if(users.length >= data.total){
+      if (users.length >= data.total) {
         setMore(false)
       }
     }
   }
 
-  const nextPage = ()=>{
-    let next = page +1
+  const nextPage = () => {
+    let next = page + 1
     setPage(next)
     getUsers(next)
-    console.log(page, nextPage)
+
   }
+  useEffect(() => {
+    getUsers(1)
+  }, [])
   return (
     <>
       <section className="layout__content">
@@ -65,8 +71,8 @@ export const People = () => {
         </header>
 
         <div className="content__posts">
-        
-        {loading ? "Cargando..." : ""}
+
+          {loading ? "Cargando..." : ""}
 
 
           {users.map(user => {
@@ -98,14 +104,16 @@ export const People = () => {
 
 
                 <div className="post__buttons">
-
-                  <a href="#" className="post__button--green">
-                    Seguir
-                  </a>
-                  {/* <a href="#" className="post__button--green">
-                Dejar de Seguir
-              </a> */}
-
+                  {!following.includes(user._id) &&
+                    <a href="#" className="post__button--green">
+                      Seguir
+                    </a>
+                  } 
+                  {following.includes(user._id) &&
+                    <a href="#" className="post__button">
+                      Dejar de Seguir
+                    </a>
+                  } 
                 </div>
 
               </article>
@@ -116,14 +124,14 @@ export const People = () => {
 
         </div>
 
-        {more && 
-        <div className="content__container-btn">
-        <button className="content__btn-more-post" onClick={nextPage}>
-          Ver mas personas
-        </button>
-      </div>
+        {more &&
+          <div className="content__container-btn">
+            <button className="content__btn-more-post" onClick={nextPage}>
+              Ver mas personas
+            </button>
+          </div>
         }
-        
+
 
       </section>
 
