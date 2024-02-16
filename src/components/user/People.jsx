@@ -19,7 +19,7 @@ export const People = () => {
   const getUsers = async (nextPage = 1) => {
     setLoading(true);
     try {
-      const response = await fetch(`${Global.url}user/list/${nextPage}`, {
+      const response = await fetch(Global.url+'user/list/'+ nextPage, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

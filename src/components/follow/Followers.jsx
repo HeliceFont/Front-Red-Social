@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Global } from '../../helpers/Global';
 import { UserList } from '../user/UserList';
+import { useParams } from 'react-router-dom';
 
-export const Followers = () => {
+export const Followers= () => {
 
     const [users, setUsers] = useState([]);
     const [page, setPage] = useState(1);
@@ -11,15 +12,24 @@ export const Followers = () => {
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem('token');
 
+    const params = useParams ()
+
+    
+
     const nextPage = () => {
         const next = page + 1;
         setPage(next);
         getUsers(next);
     };
+
+    // Sacar userId de la url
+    const userId = params.userId
+
+
     const getUsers = async (nextPage = 1) => {
         setLoading(true);
         try {
-            const response = await fetch(`${Global.url}user/list/${nextPage}`, {
+            const response = await fetch(Global.url+ 'follow/followers/' + userId +'/' + nextPage, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,6 +37,16 @@ export const Followers = () => {
                 },
             });
             const data = await response.json();
+            console.log(data)
+
+            
+            //  Recorrer y limpiar follows para quedarme con followed
+            let cleanUsers = []
+            data.follows.forEach(follow =>{
+                cleanUsers = [...cleanUsers, follow.follow.user]
+            })
+            data.users = cleanUsers
+            
 
             if (data.users && data.status === 'success') {
                 const newUsers = users.length >= 1 ? [...users, ...data.users] : data.users;
@@ -50,7 +70,7 @@ export const Followers = () => {
         <>
             <section className="layout__content">
                 <header className="content__header">
-                    <h1 className="content__title">Gente</h1>
+                    <h1 className="content__title">Seguidores de NOMBRE USUARIO</h1>
                 </header>
 
                 <UserList users={users}

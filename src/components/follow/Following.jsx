@@ -14,9 +14,7 @@ export const Following = () => {
 
     const params = useParams ()
 
-    useEffect(() => {
-        getUsers(1);
-    }, []);
+    
 
     const nextPage = () => {
         const next = page + 1;
@@ -31,7 +29,7 @@ export const Following = () => {
     const getUsers = async (nextPage = 1) => {
         setLoading(true);
         try {
-            const response = await fetch(`${Global.url}follow/following/${userId}/${nextPage}`, {
+            const response = await fetch(Global.url+ 'follow/following/' + userId +'/' + nextPage, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,13 +37,23 @@ export const Following = () => {
                 },
             });
             const data = await response.json();
+            console.log(data)
 
-            if (data.follows && data.status === 'success') {
-                const newUsers = users.length >= 1 ? [...users, ...data.follows] : data.follows;
+            
+            //  Recorrer y limpiar follows para quedarme con followed
+            let cleanUsers = []
+            data.follows.forEach(follow =>{
+                cleanUsers = [...cleanUsers, follow.followed]
+            })
+            data.users = cleanUsers
+            
+
+            if (data.users && data.status === 'success') {
+                const newUsers = users.length >= 1 ? [...users, ...data.users] : data.users;
                 setUsers(newUsers);
                 setFollowing(data.user_following);
                 setLoading(false);
-                if (users.length >= data.total - data.follows.length) {
+                if (users.length >= data.total - data.users.length) {
                     setMore(false);
                 }
             }
@@ -54,7 +62,9 @@ export const Following = () => {
             setLoading(false);
         }
     };
-    
+    useEffect(() => {
+        getUsers(1);
+    }, []);
 
     return (
         <>

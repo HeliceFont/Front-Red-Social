@@ -4,7 +4,7 @@ import avatar from '../../assets/img/user.png';
 import { Global } from '../../helpers/Global';
 import UseAuth from '../../hooks/UseAuth';
 
-export const UserList = ({ users, following, setFollowing}) => {
+export const UserList = ({ users, following, setFollowing }) => {
   const { auth } = UseAuth();
 
 
