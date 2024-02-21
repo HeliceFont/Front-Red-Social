@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Global } from '../../helpers/Global';
 import { UserList } from '../user/UserList';
 import { useParams } from 'react-router-dom';
+import { GetProfile } from '../../helpers/getProfile';
 
 export const Followers= () => {
 
@@ -10,11 +11,16 @@ export const Followers= () => {
     const [more, setMore] = useState(true);
     const [following, setFollowing] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [userProfile, setUserProfile]= useState({});
+
     const token = localStorage.getItem('token');
 
     const params = useParams ()
 
-    
+    useEffect(() => {
+        getUsers(1);
+        GetProfile(params.userId, setUserProfile)
+    }, []);
 
     const nextPage = () => {
         const next = page + 1;
@@ -28,7 +34,7 @@ export const Followers= () => {
 
     const getUsers = async (nextPage = 1) => {
         setLoading(true);
-        try {
+       
             const response = await fetch(Global.url+ 'follow/followers/' + userId +'/' + nextPage, {
                 method: 'GET',
                 headers: {
@@ -43,7 +49,7 @@ export const Followers= () => {
             //  Recorrer y limpiar follows para quedarme con followed
             let cleanUsers = []
             data.follows.forEach(follow =>{
-                cleanUsers = [...cleanUsers, follow.follow.user]
+                cleanUsers = [...cleanUsers, follow.followed]
             })
             data.users = cleanUsers
             
@@ -57,20 +63,17 @@ export const Followers= () => {
                     setMore(false);
                 }
             }
-        } catch (error) {
-            console.error('Error fetching users:', error);
+        
             setLoading(false);
-        }
+        
     };
-    useEffect(() => {
-        getUsers(1);
-    }, []);
+    
 
     return (
         <>
             <section className="layout__content">
                 <header className="content__header">
-                    <h1 className="content__title">Seguidores de NOMBRE USUARIO</h1>
+                    <h1 className="content__title">Seguidores de {userProfile.name}{userProfile.surname}</h1>
                 </header>
 
                 <UserList users={users}

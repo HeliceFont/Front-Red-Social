@@ -173,7 +173,9 @@ body {
     line-height: 1.5;
     cursor: pointer;
 }
-
+.content__button--rigth{
+    float: right;
+}
 
 .content__button:hover, .content__btn-more-post:hover {
     background-color: var(--color-background-btn-success-hover);
@@ -451,6 +453,15 @@ button{
 }
 .alert{
     width: 22.9%;
+    display: block;
+    background: #8aeb49;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    color: black;
+    border-radius: 3px;
+}
+.alert-publications{
+    width: 60%;
     display: block;
     background: #8aeb49;
     padding: 1rem;
