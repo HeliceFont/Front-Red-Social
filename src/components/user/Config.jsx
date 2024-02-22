@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import UseAuth from "../../hooks/UseAuth"
+import avatar from '../../assets/img/user.png'
 import { Global } from "../../helpers/Global"
 import { SerializeForm } from "../../helpers/SerializeForm"
 
@@ -12,7 +13,7 @@ export const Config = () => {
 
     useEffect(() => {
         // Este efecto se ejecutará cada vez que se actualice el estado auth
-        console.log("Usuario actualizado:", auth);
+        // console.log("Usuario actualizado:", auth);
     }, [auth]);
 
     const updateUser = async (e) => {
@@ -43,7 +44,6 @@ export const Config = () => {
         if (data.status === "success" && data.user) {
             // Eliminar la contraseña antes de actualizar el estado
             delete data.user.password
-            console.log(auth)
 
             // Actualizar el estado local
             setAuth(data.user)
@@ -85,6 +85,7 @@ export const Config = () => {
             }
         }
     }
+    
     return (
         <>
             <header className="content__header content__header--public">
@@ -105,7 +106,7 @@ export const Config = () => {
 
                         <div className="general-info__container-avatar">
                             {auth.image != "default.png" && <img src={Global.url + "user/avatar/" + auth.image} className="container-avatar__img" alt="Foto de perfil" />}
-                            {auth.image == "default.png" && <img src={auth.image} className="container-avatar__img" alt="Foto de perfil" />}
+                            {auth.image == "default.png" && <img src={avatar} className="container-avatar__img" alt="Foto de perfil" />}
                         </div>
                         <br />
 

@@ -5,6 +5,7 @@ import { GetProfile } from '../../helpers/GetProfile'
 import { Link, useParams } from 'react-router-dom'
 import { Global } from '../../helpers/Global'
 import UseAuth from '../../hooks/UseAuth'
+import { PublicationList } from '../publication/PublicationList'
 
 
 export const Profile = () => {
@@ -12,17 +13,24 @@ export const Profile = () => {
     const { auth } = UseAuth()
     const [counters, setCounters] = useState({})
     const [iFollow, setIFollow] = useState(false)
+    const [publications, setPublications] = useState([])
+    const [page, setPage] = useState(1)
+    const [more, setMore] = useState(true)
+    const token = localStorage.getItem('token')
 
     const params = useParams()
 
     useEffect(() => {
         getDataUser()
         getCounters(params.userId, setCounters)
+        getPublications(1, true)
     }, [])
 
     useEffect(() => {
         getDataUser()
         getCounters(params.userId, setCounters)
+        setMore(true)
+        getPublications(1, true)
     }, [params])
 
     const getDataUser = async () => {
@@ -47,6 +55,80 @@ export const Profile = () => {
         }
 
     }
+    const follow = async (userId) => {
+
+        const response = await fetch(Global.url + 'follow/save', {
+            method: 'POST',
+            body: JSON.stringify({ followed: userId }),
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: token,
+            },
+        });
+        const data = await response.json();
+
+        if (data.status === 'success') {
+            // Actualizar estado
+            setIFollow(true)
+        }
+
+    };
+
+    const unfollow = async (userId) => {
+
+        const request = await fetch(Global.url + 'follow/unfollow/' + userId, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: token,
+            },
+        });
+
+        const data = await request.json()
+
+        if (data.status == "success") {
+            setIFollow(false)
+        }
+
+    };
+
+    const getPublications = async (nextPage = 1, newProfile = false) => {
+        const request = await fetch(Global.url + "publication/user/" + params.userId + "/" + nextPage, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            }
+        })
+
+        const data = await request.json()
+
+        if (data.status === "success") {
+            let newPublications = data.publications
+
+            if (!newProfile && publications.length >= 1) {
+                newPublications = [...publications, ...data.publications]
+            }
+            if (newProfile) {
+                newPublications = data.publications
+                setMore(true)
+                setPage(1)
+            }
+
+            setPublications(newPublications)
+
+            if (!newProfile && publications.length >= data.total - data.publications.length) {
+                setMore(false)
+            }
+
+            if (data.page <= 1) {
+                setMore(false)
+            }
+        }
+    }
+
+    
+    
 
     return (
         <>
@@ -64,9 +146,9 @@ export const Profile = () => {
 
                             {user._id !== auth._id &&
                                 (iFollow ?
-                                    <button className="content__button content__button--rigth post__button">Dejar de Seguir</button>
+                                    <button onClick={() => unfollow(user._id)} className="content__button content__button--rigth post__button">Dejar de Seguir</button>
                                     :
-                                    <button className="content__button content__button--rigth">Seguir</button>
+                                    <button onClick={() => follow(user._id)} className="content__button content__button--rigth">Seguir</button>
                                 )
                             }
                         </div>
@@ -104,53 +186,19 @@ export const Profile = () => {
                 </div>
             </header >
 
+            <PublicationList
+                user={user}
+                publications={publications}
+                getPublications={getPublications}
+                getDataUser={getDataUser}
+                page={page}
+                setPage={setPage}
+                more={more}
+                setMore={setMore}
+                
+            />
 
-
-
-            <div className="content__posts">
-
-                <article className="posts__post">
-
-                    <div className="post__container">
-
-                        <div className="post__image-user">
-                            <a href="#" className="post__image-link">
-                                <img src={avatar} className="post__user-image" alt="Foto de perfil" />
-                            </a>
-                        </div>
-
-                        <div className="post__body">
-
-                            <div className="post__user-info">
-                                <a href="#" className="user-info__name">Albert Einstein</a>
-                                <span className="user-info__divider"> | </span>
-                                <a href="#" className="user-info__create-date">Hace 1 hora</a>
-                            </div>
-
-                            <h4 className="post__content">Hay una fuerza motriz más poderosa que el vapor, la electricidad y la energía atómica: la voluntad.</h4>
-
-                        </div>
-
-                    </div>
-
-
-                    <div className="post__buttons">
-
-                        <a href="#" className="post__button">
-                            <i className="fa-solid fa-trash-can"></i>
-                        </a>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-            <div className="content__container-btn">
-                <button className="content__btn-more-post">
-                    Ver mas publicaciones
-                </button>
-            </div>
+            <br />
         </>
     )
 }

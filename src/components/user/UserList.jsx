@@ -89,7 +89,7 @@ export const UserList = ({ users, following, setFollowing }) => {
                   >
                     Seguir
                   </button>
-                )}
+                )}:
                 {following.includes(user._id) && (
                   <button
                     className="post__button"
