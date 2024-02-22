@@ -5,17 +5,16 @@ import UseAuth from '../../hooks/UseAuth'
 import { useState } from "react"
 
 
-export const PublicationList = ({publications, getPublications, page, setPage, more, setMore,}) => {
+export const PublicationList = ({ publications, getPublications, page, setPage, more, setMore, }) => {
 
     const { auth } = UseAuth()
-    const [user, setUser] = useState({})
 
     const nextPage = () => {
         let next = page + 1
         setPage(next)
         getPublications(next)
     }
-    
+
 
     const deletePublication = async (publicationId) => {
         const request = await fetch(Global.url + "publication/remove/" + publicationId, {
@@ -74,7 +73,7 @@ export const PublicationList = ({publications, getPublications, page, setPage, m
 
                                 </div>
                             }
-
+                            
                         </article>)
                 })}
 
@@ -85,6 +84,7 @@ export const PublicationList = ({publications, getPublications, page, setPage, m
                         Ver mas publicaciones
                     </button>
                 </div>
+                
             }
         </>
     )

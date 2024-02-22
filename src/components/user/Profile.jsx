@@ -120,10 +120,6 @@ export const Profile = () => {
             if (!newProfile && publications.length >= data.total - data.publications.length) {
                 setMore(false)
             }
-
-            if (data.page <= 1) {
-                setMore(false)
-            }
         }
     }
 
@@ -187,7 +183,7 @@ export const Profile = () => {
             </header >
 
             <PublicationList
-                user={user}
+                
                 publications={publications}
                 getPublications={getPublications}
                 getDataUser={getDataUser}
@@ -197,7 +193,7 @@ export const Profile = () => {
                 setMore={setMore}
                 
             />
-
+            
             <br />
         </>
     )
