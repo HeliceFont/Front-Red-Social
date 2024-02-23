@@ -2,7 +2,6 @@ import { Link } from "react-router-dom"
 import { Global } from "../../helpers/Global"
 import avatar from '../../assets/img/user.png'
 import UseAuth from '../../hooks/UseAuth'
-import { useState } from "react"
 import ReacTimeAgo from "react-time-ago"
 
 
