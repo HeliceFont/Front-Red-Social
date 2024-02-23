@@ -3,6 +3,7 @@ import { Global } from "../../helpers/Global"
 import avatar from '../../assets/img/user.png'
 import UseAuth from '../../hooks/UseAuth'
 import { useState } from "react"
+import ReacTimeAgo from "react-time-ago"
 
 
 export const PublicationList = ({ publications, getPublications, page, setPage, more, setMore, }) => {
@@ -54,7 +55,7 @@ export const PublicationList = ({ publications, getPublications, page, setPage, 
                                     <div className="post__user-info">
                                         <a href="#" className="user-info__name">{publication.user.name + " " + publication.user.surname}</a>
                                         <span className="user-info__divider"> | </span>
-                                        <a href="#" className="user-info__create-date">{publication.created_at}</a>
+                                        <a href="#" className="user-info__create-date"><ReacTimeAgo date={publication.created_at} locale="es-Es"/></a>
                                     </div>
 
                                     <h4 className="post__content">{publication.text}</h4>

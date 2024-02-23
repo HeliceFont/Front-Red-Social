@@ -60,11 +60,12 @@ export const Sidebar = () => {
             }
 
             // Vaciar el formulario una vez publicado
-            if (data.status == "success" && uploadData.status == "success") {
-                const myForm = document.querySelector("#publications-form")
-                myForm.reset()
-            }
+            // if (data.status == "success" && uploadData.status == "success") {
+                
+            // }
         }
+        const myForm = document.querySelector("#publications-form")
+                myForm.reset()
     }
 
     return (
